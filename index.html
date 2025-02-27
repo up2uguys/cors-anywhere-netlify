@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Market Data</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="title">Crypto Market Data</h2>
+        <div id="market-data"></div>
+    </div>
+    
+    <script>
+        async function fetchMarketData() {
+            const proxyUrl = 'https://<your-netlify-app>.netlify.app/api/cors-anywhere?url=';
+            const apis = {
+                indodax: 'https://indodax.com/api/tickers',
+                binance: 'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT',
+                coinbase: 'https://api.coinbase.com/v2/prices/BTC-USD/spot',
+                okx: 'https://www.okx.com/api/v5/market/ticker?instId=BTC-USDT'
+            };
+
+            const marketData = {};
+            for (const [market, url] of Object.entries(apis)) {
+                try {
+                    const response = await fetch(proxyUrl + encodeURIComponent(url));
+                    const data = await response.json();
+                    marketData[market] = data;
+                } catch (error) {
+                    marketData[market] = { error: 'Failed to fetch data' };
+                }
+            }
+
+            displayMarketData(marketData);
+        }
+
+        function displayMarketData(data) {
+            const container = document.getElementById('market-data');
+            container.innerHTML = '';
+            for (const [market, info] of Object.entries(data)) {
+                const marketDiv = document.createElement('div');
+                marketDiv.innerHTML = `<h4>${market}</h4><pre>${JSON.stringify(info, null, 2)}</pre>`;
+                container.appendChild(marketDiv);
+            }
+        }
+
+        fetchMarketData();
+    </script>
+</body>
+</html>
