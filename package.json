@@ -1,15 +1,17 @@
 {
   "name": "cors-anywhere-netlify",
   "version": "1.0.0",
-  "description": "A proxy server to bypass CORS issues using Netlify Functions",
+  "description": "A proxy to bypass CORS restrictions for Netlify",
   "main": "index.js",
   "scripts": {
-    "start": "netlify dev"
+    "start": "netlify-lambda serve functions",
+    "build": "netlify-lambda build functions"
   },
   "dependencies": {
-    "netlify-cli": "^12.0.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "punycode": "^2.1.1"
   },
-  "author": "up2uguys",
-  "license": "MIT"
+  "devDependencies": {
+    "netlify-lambda": "^2.0.0"
+  }
 }
