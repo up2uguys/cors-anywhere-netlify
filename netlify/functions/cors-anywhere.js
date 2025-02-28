@@ -10,6 +10,8 @@ exports.handler = async function(event, context) {
         };
     }
 
+    console.log('Fetching URL:', targetUrl);
+
     try {
         const response = await fetch(targetUrl, {
             method: event.httpMethod,
@@ -22,6 +24,9 @@ exports.handler = async function(event, context) {
 
         const body = await response.text();
 
+        console.log('Response status:', response.status);
+        console.log('Response body:', body);
+
         return {
             statusCode: response.status,
             headers: {
@@ -31,6 +36,7 @@ exports.handler = async function(event, context) {
             body,
         };
     } catch (error) {
+        console.error('Error fetching URL:', error);
         return {
             statusCode: 500,
             body: `Error: ${error.message}`,
