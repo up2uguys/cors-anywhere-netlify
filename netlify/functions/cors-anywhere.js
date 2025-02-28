@@ -35,6 +35,8 @@ exports.handler = async function(event, context) {
             statusCode: response.status,
             headers: {
                 'access-control-allow-origin': '*',
+                'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'access-control-allow-headers': 'Content-Type, Authorization',
                 ...response.headers.raw(),
             },
             body,
@@ -43,6 +45,9 @@ exports.handler = async function(event, context) {
         console.error('Error fetching URL:', error);
         return {
             statusCode: 500,
+            headers: {
+                'access-control-allow-origin': '*',
+            },
             body: `Error: ${error.message}`,
         };
     }
