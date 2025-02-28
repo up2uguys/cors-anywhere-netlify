@@ -12,16 +12,20 @@ exports.handler = async function(event, context) {
 
     console.log('Fetching URL:', targetUrl);
 
-    try {
-        const response = await fetch(targetUrl, {
-            method: event.httpMethod,
-            headers: {
-                ...event.headers,
-                host: new URL(targetUrl).host,
-            },
-            body: event.body,
-        });
+    const options = {
+        method: event.httpMethod,
+        headers: {
+            ...event.headers,
+            host: new URL(targetUrl).host,
+        },
+    };
 
+    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(event.httpMethod)) {
+        options.body = event.body;
+    }
+
+    try {
+        const response = await fetch(targetUrl, options);
         const body = await response.text();
 
         console.log('Response status:', response.status);
