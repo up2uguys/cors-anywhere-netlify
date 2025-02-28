@@ -8,8 +8,7 @@
     "build": "netlify-lambda build functions"
   },
   "dependencies": {
-    "node-fetch": "^2.6.1",
-    "punycode": "^2.1.1"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "netlify-lambda": "^2.0.0"
