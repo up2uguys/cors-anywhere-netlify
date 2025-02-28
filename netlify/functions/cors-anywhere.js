@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const punycode = require('punycode'); // Gunakan punycode.js sebagai alternatif
 
 exports.handler = async function(event, context) {
     const targetUrl = event.queryStringParameters.url;
